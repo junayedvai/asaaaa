@@ -303,6 +303,34 @@ hr{border:none;border-top:1px solid var(--bdr);margin:16px 0}
           <div id="hm-notices"></div>
           <button class="add-btn" id="hm-notice-add">＋ Add Notice</button>
         </div>
+        <div class="card">
+          <div class="ct">Administration Section</div>
+          <div class="frow">
+            <div class="field"><label class="fl">Section Title</label><input type="text" id="hm-admin-title" /></div>
+            <div class="field"><label class="fl">Leadership Column Title</label><input type="text" id="hm-admin-lead-title" /></div>
+            <div class="field"><label class="fl">Teachers Column Title</label><input type="text" id="hm-admin-teacher-title" /></div>
+            <div class="field fw"><label class="fl">Section Subtitle</label><div data-rf="hm-admin-sub" data-ph="Administration section subtitle..."></div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="ct">Administration Members</div>
+          <div id="hm-admin-leadership"></div>
+          <button class="add-btn" id="hm-admin-leadership-add">＋ Add Leadership Member</button>
+        </div>
+        <div class="card">
+          <div class="ct">Teachers</div>
+          <div id="hm-admin-teachers"></div>
+          <button class="add-btn" id="hm-admin-teachers-add">＋ Add Teacher</button>
+        </div>
+        <div class="card">
+          <div class="ct">CEO / Leadership Messages</div>
+          <div class="frow">
+            <div class="field"><label class="fl">Section Title</label><input type="text" id="hm-msg-title" /></div>
+            <div class="field fw"><label class="fl">Section Subtitle</label><div data-rf="hm-msg-sub" data-ph="CEO and leadership message section subtitle..."></div></div>
+          </div>
+          <div id="hm-msg-list" style="margin-top:10px"></div>
+          <button class="add-btn" id="hm-msg-add">＋ Add Message</button>
+        </div>
       </div>
 
       <!-- ABOUT -->
@@ -800,6 +828,17 @@ function bindAll() {
   sv('hm-notice-empty',hnb && hnb.emptyText);
   srv('hm-notice-sub',hnb && hnb.subtitle);
   renderHomeNotices(hnb && hnb.notices);
+  var hadm = c.home && c.home.administrationSection;
+  sv('hm-admin-title', hadm && hadm.title);
+  sv('hm-admin-lead-title', hadm && hadm.leadershipTitle);
+  sv('hm-admin-teacher-title', hadm && hadm.teachersTitle);
+  srv('hm-admin-sub', hadm && hadm.subtitle);
+  renderAdminMembers('hm-admin-leadership', hadm && hadm.leadershipMembers, 'leader');
+  renderAdminMembers('hm-admin-teachers', hadm && hadm.teacherMembers, 'teacher');
+  var hmsg = c.home && c.home.messagesSection;
+  sv('hm-msg-title', hmsg && hmsg.title);
+  srv('hm-msg-sub', hmsg && hmsg.subtitle);
+  renderHomeMessages(hmsg && hmsg.messages);
 
   var ah = c.about && c.about.hero;
   sv('ab-title',ah && ah.title); sv('ab-th',ah && ah.titleHighlight); srv('ab-sub',ah && ah.subtitle);
@@ -895,6 +934,17 @@ function collectAll() {
   c.home.noticeBoard.emptyText = v('hm-notice-empty');
   c.home.noticeBoard.excerptLength = Number(v('hm-notice-excerpt')) || 180;
   c.home.noticeBoard.notices = collectHomeNotices();
+  if (!c.home.administrationSection) c.home.administrationSection = {};
+  c.home.administrationSection.title = v('hm-admin-title');
+  c.home.administrationSection.subtitle = grv('hm-admin-sub');
+  c.home.administrationSection.leadershipTitle = v('hm-admin-lead-title');
+  c.home.administrationSection.teachersTitle = v('hm-admin-teacher-title');
+  c.home.administrationSection.leadershipMembers = collectAdminMembers('hm-admin-leadership');
+  c.home.administrationSection.teacherMembers = collectAdminMembers('hm-admin-teachers');
+  if (!c.home.messagesSection) c.home.messagesSection = {};
+  c.home.messagesSection.title = v('hm-msg-title');
+  c.home.messagesSection.subtitle = grv('hm-msg-sub');
+  c.home.messagesSection.messages = collectHomeMessages();
 
   c.about.hero.title=v('ab-title'); c.about.hero.titleHighlight=v('ab-th');
   c.about.hero.subtitle=grv('ab-sub');
@@ -1003,6 +1053,66 @@ function collectHomeNotices() {
       title: v('hm-notice-title-' + i),
       content: v('hm-notice-content-' + i),
       publishedAt: Number.isNaN(parsed.getTime()) ? new Date().toISOString() : parsed.toISOString(),
+    };
+  });
+}
+
+function renderAdminMembers(wid, members, typeLabel) {
+  var w = $(wid); w.innerHTML = '';
+  (members || []).forEach(function(member, i) {
+    var d = document.createElement('div'); d.className = 'ai'; d.dataset.idx = i;
+    d.innerHTML = '<div class="ai-hdr"><span class="ai-num">' + xe((member && member.role) || (typeLabel + ' ' + (i + 1))) + '</span>'
+      + '<button class="ai-del" onclick="this.closest(\'.ai\').remove()">&#x2715; Remove</button></div>'
+      + '<div class="frow">'
+      + '<div class="field"><label class="fl">ID</label><input type="text" id="' + wid + '-id-' + i + '" value="' + xe((member && member.id) || (typeLabel + '-' + (i + 1))) + '" /></div>'
+      + '<div class="field"><label class="fl">Name</label><input type="text" id="' + wid + '-name-' + i + '" value="' + xe((member && member.name) || '') + '" /></div>'
+      + '<div class="field"><label class="fl">Role</label><input type="text" id="' + wid + '-role-' + i + '" value="' + xe((member && member.role) || '') + '" /></div>'
+      + '<div class="field"><label class="fl">Image URL/Path</label><input type="text" id="' + wid + '-img-' + i + '" value="' + xe((member && member.image) || '') + '" /></div>'
+      + '<div class="field fw"><label class="fl">Bio</label><textarea id="' + wid + '-bio-' + i + '">' + xe((member && member.bio) || '') + '</textarea></div>'
+      + '</div>';
+    w.appendChild(d);
+  });
+}
+
+function collectAdminMembers(wid) {
+  return Array.from($(wid).querySelectorAll('.ai')).map(function(el, idx) {
+    var i = el.dataset.idx;
+    return {
+      id: v(wid + '-id-' + i) || ('member-' + (idx + 1)),
+      name: v(wid + '-name-' + i),
+      role: v(wid + '-role-' + i),
+      image: v(wid + '-img-' + i),
+      bio: v(wid + '-bio-' + i),
+    };
+  });
+}
+
+function renderHomeMessages(messages) {
+  var w = $('hm-msg-list'); w.innerHTML = '';
+  (messages || []).forEach(function(item, i) {
+    var d = document.createElement('div'); d.className = 'ai'; d.dataset.idx = i;
+    d.innerHTML = '<div class="ai-hdr"><span class="ai-num">Message ' + (i + 1) + '</span>'
+      + '<button class="ai-del" onclick="this.closest(\'.ai\').remove()">&#x2715; Remove</button></div>'
+      + '<div class="frow">'
+      + '<div class="field"><label class="fl">ID</label><input type="text" id="hm-msg-id-' + i + '" value="' + xe((item && item.id) || ('message-' + (i + 1))) + '" /></div>'
+      + '<div class="field"><label class="fl">Name</label><input type="text" id="hm-msg-name-' + i + '" value="' + xe((item && item.name) || '') + '" /></div>'
+      + '<div class="field"><label class="fl">Designation</label><input type="text" id="hm-msg-desig-' + i + '" value="' + xe((item && item.designation) || '') + '" /></div>'
+      + '<div class="field"><label class="fl">Image URL/Path</label><input type="text" id="hm-msg-img-' + i + '" value="' + xe((item && item.image) || '') + '" /></div>'
+      + '<div class="field fw"><label class="fl">Detailed Message</label><textarea id="hm-msg-body-' + i + '">' + xe((item && item.message) || '') + '</textarea></div>'
+      + '</div>';
+    w.appendChild(d);
+  });
+}
+
+function collectHomeMessages() {
+  return Array.from($('hm-msg-list').querySelectorAll('.ai')).map(function(el, idx) {
+    var i = el.dataset.idx;
+    return {
+      id: v('hm-msg-id-' + i) || ('message-' + (idx + 1)),
+      name: v('hm-msg-name-' + i),
+      designation: v('hm-msg-desig-' + i),
+      image: v('hm-msg-img-' + i),
+      message: v('hm-msg-body-' + i),
     };
   });
 }
@@ -1245,6 +1355,15 @@ document.querySelectorAll('.ni').forEach(function(n){
 $('hm-stats-add').addEventListener('click',function(){ renderStats(collectStats().concat([{}])); });
 $('hm-notice-add').addEventListener('click',function(){
   renderHomeNotices(collectHomeNotices().concat([{ id: '', title: '', content: '', publishedAt: new Date().toISOString() }]));
+});
+$('hm-admin-leadership-add').addEventListener('click',function(){
+  renderAdminMembers('hm-admin-leadership', collectAdminMembers('hm-admin-leadership').concat([{ id: '', name: '', role: '', image: '', bio: '' }]), 'leader');
+});
+$('hm-admin-teachers-add').addEventListener('click',function(){
+  renderAdminMembers('hm-admin-teachers', collectAdminMembers('hm-admin-teachers').concat([{ id: '', name: '', role: '', image: '', bio: '' }]), 'teacher');
+});
+$('hm-msg-add').addEventListener('click',function(){
+  renderHomeMessages(collectHomeMessages().concat([{ id: '', name: '', designation: '', image: '', message: '' }]));
 });
 $('ab-vals-add').addEventListener('click',function(){ renderTD('ab-vals',collectTD('ab-vals').concat([{}])); });
 $('ab-why-add').addEventListener('click',function(){ renderTD('ab-why',collectTD('ab-why').concat([{}])); });

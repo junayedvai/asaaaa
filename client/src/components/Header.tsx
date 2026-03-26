@@ -17,8 +17,10 @@ export default function Header() {
       { label: "Services", href: "/services" },
       { label: "IELTS", href: "/ielts" },
       { label: "Japanese", href: "/japanese" },
+      { label: "Administration", href: "/administration" },
       { label: "Destinations", href: "/destinations" },
       { label: "Success Stories", href: "/success-stories" },
+      { label: "Notice Board", href: "/notice-board" },
       { label: "Contact", href: "/contact" },
     ],
     []
@@ -41,16 +43,14 @@ export default function Header() {
           <nav className="hidden xl:flex items-center gap-1 rounded-full border border-white/10 bg-white/8 p-1.5 shadow-[0_18px_40px_rgba(0,0,0,0.22)]">
             {navItems.map((item) => {
               const active = location === item.href;
+              const className = `rounded-full px-4 py-2.5 text-sm font-semibold transition-all ${
+                active
+                  ? "bg-gradient-to-r from-blue-500 via-indigo-500 to-cyan-400 text-white shadow-[0_10px_24px_rgba(208,173,85,0.30)]"
+                  : "text-white/80 hover:bg-white/10 hover:text-white"
+              }`;
+
               return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={`rounded-full px-4 py-2.5 text-sm font-semibold transition-all ${
-                    active
-                      ? "bg-gradient-to-r from-blue-500 via-indigo-500 to-cyan-400 text-white shadow-[0_10px_24px_rgba(208,173,85,0.30)]"
-                      : "text-white/80 hover:bg-white/10 hover:text-white"
-                  }`}
-                >
+                <Link key={item.href} href={item.href} className={className}>
                   {item.label}
                 </Link>
               );
@@ -91,15 +91,12 @@ export default function Header() {
               <nav className="grid gap-2">
                 {navItems.map((item) => {
                   const active = location === item.href;
+                  const className = `rounded-2xl px-4 py-3 text-sm font-semibold transition-all ${
+                    active ? "bg-white text-slate-900" : "text-white/85 hover:bg-white/8 hover:text-white"
+                  }`;
+
                   return (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      onClick={() => setIsOpen(false)}
-                      className={`rounded-2xl px-4 py-3 text-sm font-semibold transition-all ${
-                        active ? "bg-white text-slate-900" : "text-white/85 hover:bg-white/8 hover:text-white"
-                      }`}
-                    >
+                    <Link key={item.href} href={item.href} onClick={() => setIsOpen(false)} className={className}>
                       {item.label}
                     </Link>
                   );

@@ -31,7 +31,7 @@ export default function SuccessStories() {
                 const Icon = stat.icon;
                 return (
                   <div key={index} className="premium-card p-5 text-center lg:text-left">
-                    <div className="mx-auto mb-3 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-golden to-dark-golden text-white lg:mx-0"><Icon size={20} /></div>
+                    <div className="mx-auto mb-3 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-black text-white lg:mx-0"><Icon size={20} /></div>
                     <p className="text-3xl font-bold text-black">{stat.number}</p>
                     <p className="text-xs font-semibold uppercase tracking-[0.16em] text-gray">{stat.label}</p>
                   </div>

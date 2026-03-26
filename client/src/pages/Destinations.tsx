@@ -110,7 +110,7 @@ export default function Destinations() {
               const Icon = whyIcons[index % whyIcons.length];
               return (
                 <div key={card.id} className="premium-card p-6">
-                  <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-golden to-dark-golden text-white"><Icon size={20} /></div>
+                  <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-black text-white"><Icon size={20} /></div>
                   <h3 className="text-2xl font-bold text-black">{card.title}</h3>
                   <RichText as="p" className="mt-4 text-sm leading-7 text-gray" text={card.description} />
                 </div>

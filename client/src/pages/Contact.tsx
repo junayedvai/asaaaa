@@ -50,7 +50,7 @@ export default function Contact() {
               const Icon = item.icon;
               return (
                 <div key={item.title} className="premium-card p-6 text-center xl:text-left">
-                  <div className="mx-auto mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-golden to-dark-golden text-white xl:mx-0"><Icon size={20} /></div>
+                  <div className="mx-auto mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-black text-white xl:mx-0"><Icon size={20} /></div>
                   <h3 className="text-2xl font-bold text-black">{item.title}</h3>
                   <p className="mt-4 text-sm leading-7 text-gray">{item.value}</p>
                 </div>

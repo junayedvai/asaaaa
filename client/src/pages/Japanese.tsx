@@ -26,7 +26,7 @@ export default function Japanese() {
                 {japanese.hero.title} <span className="text-golden">{japanese.hero.titleHighlight}</span> {japanese.hero.titleSuffix}
               </h1>
               <RichText as="p" className="mt-6 max-w-2xl text-base leading-8 text-gray sm:text-lg" text={japanese.hero.description} />
-              <a href={g.registrationLink} target="_blank" rel="noopener noreferrer" className="mt-7 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-golden to-dark-golden px-7 py-4 text-sm font-bold text-white">
+              <a href={g.registrationLink} target="_blank" rel="noopener noreferrer" className="mt-7 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-golden to-dark-golden px-7 py-4 text-sm font-bold text-black">
                 {japanese.hero.ctaButton} <ArrowUpRight size={16} />
               </a>
             </div>
@@ -116,7 +116,7 @@ export default function Japanese() {
               const Icon = icons[index % icons.length];
               return (
                 <div key={item.id} className="premium-card p-6">
-                  <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-golden to-dark-golden text-white"><Icon size={20} /></div>
+                  <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-black text-white"><Icon size={20} /></div>
                   <h3 className="text-2xl font-bold text-black">{item.title}</h3>
                   <RichText as="p" className="mt-4 text-sm leading-7 text-gray" text={item.description} />
                 </div>

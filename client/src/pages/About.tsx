@@ -75,7 +75,7 @@ export default function About() {
               const Icon = icons[index % icons.length];
               return (
                 <div key={value.id} className="premium-card p-6">
-                  <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-golden to-dark-golden text-white">
+                  <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-black text-white">
                     <Icon size={22} />
                   </div>
                   <h3 className="text-2xl font-bold text-black">{value.title}</h3>

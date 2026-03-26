@@ -1,0 +1,15 @@
+Study Hub BD redesign package
+
+What was updated:
+- Home, About, Services, IELTS, Japanese, Destinations, Success Stories, and Contact pages redesigned
+- Header and footer redesigned
+- Global premium UI classes added in client/src/index.css
+
+Important:
+This zip intentionally excludes node_modules because the uploaded node_modules were Windows-specific and cannot build correctly on Linux.
+After extracting, run:
+1. npm install
+2. npm run dev
+3. npm run build
+
+If deployment is on Vercel, pushing this source-only package is the correct approach.
